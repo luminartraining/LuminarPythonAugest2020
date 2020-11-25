@@ -96,3 +96,14 @@ def balanceEnq(request):
                 return render(request, "accounts/checkbalance.html", context)
 
     return render(request,"accounts/checkbalance.html",context)
+
+
+
+
+
+
+def accountActivity(request):
+    form=BalanceChkform()
+    context={}
+    context["form"]=form
+    return render(request,"accounts/accounthistory.html",context)

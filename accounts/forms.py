@@ -20,6 +20,19 @@ class LoginForm(forms.Form):
 class BalanceChkform(forms.Form):
     mpin = forms.CharField(max_length=6)
 
+    def clean(self):
+        clean_data=super().clean()
+        mpin=clean_data.get("mpin")
+        try:
+            object=Account.objects.get(mpin=mpin)
+            if object:
+                pass
+        except:
+            msg="you are provided invalid mpin"
+            self.add_error("mpin",msg)
+
+
+
 class TransferAmountForm(ModelForm):
     class Meta:
         model=TransferDetails
