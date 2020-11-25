@@ -11,9 +11,22 @@ def transfer(request):
     if request.method=="POST":
         form=TransferAmountForm(request.POST)
         if form.is_valid():
+            mpin=form.cleaned_data.get("mpin")
+            amount=form.cleaned_data.get("amount")
+            try:
+                object = Account.objects.get(mpin=mpin)#1234(
+                bal=object.balance-amount #3000-2000bal=1000
+                object.balance=bal
+                object.save()
+            except Exception:
+                context["form"] = form
+                return render(request, "accounts/transferamount.html", context)
+
             form.save()
             return redirect("balance")
-
+        else:
+            context["form"]=form
+            return render(request, "accounts/transferamount.html", context)
     return  render(request,"accounts/transferamount.html",context)
 def createAccount(request):
     template_name="accounts/accountcreate.html"
